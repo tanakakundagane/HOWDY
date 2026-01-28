@@ -16,6 +16,8 @@ const SliderMaterial = shaderMaterial(
     uDisp: new THREE.Texture(),
     uProgress: 0,
     uTime: 0,
+    uResolution: new THREE.Vector2(1, 1),
+    uImageResolution: new THREE.Vector2(1, 1),
   },
   // Vertex Shader
   `
@@ -31,27 +33,32 @@ const SliderMaterial = shaderMaterial(
     uniform sampler2D uTexture2;
     uniform float uProgress;
     uniform float uTime;
+    uniform vec2 uResolution;
+    uniform vec2 uImageResolution;
     varying vec2 vUv;
 
+    // Cover function to adjust UVs
+    vec2 getCoverUv(vec2 uv, vec2 resolution, vec2 imageResolution) {
+      vec2 s = resolution; // Screen
+      vec2 i = imageResolution; // Image
+      float rs = s.x / s.y;
+      float ri = i.x / i.y;
+      vec2 new = rs < ri ? vec2(i.x * s.y / i.y, s.y) : vec2(s.x, i.y * s.x / i.x);
+      vec2 offset = (rs < ri ? vec2((new.x - s.x) / 2.0, 0.0) : vec2(0.0, (new.y - s.y) / 2.0)) / new;
+      vec2 uvCover = uv * s / new + offset;
+      return uvCover;
+    }
+
     void main() {
-      vec2 uv = vUv;
+      // Adjust UV for cover fit
+      vec2 uv = getCoverUv(vUv, uResolution, uImageResolution);
       
       // Simple wave distortion based on progress
       float wave = sin(uv.y * 10.0 + uTime) * 0.02 * sin(uProgress * 3.14);
       
       // Displacement
-      vec2 distortedUv1 = uv + vec2(wave, 0.0) + (uProgress * 0.5); // Slide out
-      vec2 distortedUv2 = uv + vec2(wave, 0.0) - ((1.0 - uProgress) * 0.5); // Slide in
-
-      vec4 t1 = texture2D(uTexture1, vec2(uv.x - uProgress * 0.2 + wave, uv.y));
-      vec4 t2 = texture2D(uTexture2, vec2(uv.x + (1.0 - uProgress) * 0.2 + wave, uv.y));
-
-      // Crossfade with distortion
-      float intensity = 0.3;
-      vec2 disp = vec2(0.0, 0.0);
-
-      vec4 color1 = texture2D(uTexture1, uv + disp * intensity * uProgress);
-      vec4 color2 = texture2D(uTexture2, uv + disp * intensity * (1.0 - uProgress));
+      // We apply wave to the cover-adjusted UV
+      // Note: applying distortion after cover adjustment ensures consistent look
       
       // Liquid transition logic
       float p = uProgress;
@@ -76,7 +83,7 @@ extend({ SliderMaterial });
 const IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 
 function SliderScene({ activeIndex }: { activeIndex: number }) {
-  const { viewport } = useThree();
+  const { viewport, size } = useThree();
   const materialRef = useRef<any>(null!);
   
   // Load textures
@@ -93,6 +100,11 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
   const targetProgress = useRef(0);
   const lastIndex = useRef(activeIndex);
   
+  // For robustness, check each image if loaded. 
+  // We cast to HTMLImageElement to access width/height safely.
+  const imgWidth = (textures[0].image as HTMLImageElement)?.width || 1920;
+  const imgHeight = (textures[0].image as HTMLImageElement)?.height || 1080;
+
   useFrame((state, delta) => {
     // Simplification: We only animate when index changes
     if (activeIndex !== lastIndex.current) {
@@ -113,6 +125,8 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
 
       // Pass uniforms
       materialRef.current.uTime = state.clock.getElapsedTime();
+      materialRef.current.uResolution = new THREE.Vector2(size.width, size.height);
+      materialRef.current.uImageResolution = new THREE.Vector2(imgWidth, imgHeight);
       
       // Manage "current" and "next" textures
       if (targetProgress.current === 1) {
@@ -163,12 +177,6 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  const slideTexts = [
-    { title: "Elegance in Every Detail", subtitle: "Redefining Beauty" },
-    { title: "Sanctuary for the Soul", subtitle: "Relax & Rejuvenate" },
-    { title: "Artistry in Motion", subtitle: "Timeless Styles" },
-  ];
-
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden bg-zinc-900">
       {/* 3D Background (Slider) */}
@@ -179,15 +187,16 @@ export default function Hero() {
       </div>
 
       {/* Overlay Gradient for readability */}
-      <div className="absolute inset-0 z-0 bg-black/20" />
+      <div className="absolute inset-0 z-0 bg-black/30 md:bg-black/20" />
 
       {/* Content Overlay */}
       <div className="relative z-10 flex h-full w-full items-center justify-center px-6 md:justify-start md:px-20">
-        <div className="max-w-4xl">
+        <div className="flex w-full max-w-4xl flex-col items-center text-center md:items-start md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center md:items-start"
           >
             <h1 className="mb-4 font-serif text-6xl font-bold leading-tight text-white md:text-8xl lg:text-9xl drop-shadow-lg tracking-tighter">
               HOWDY
@@ -196,7 +205,7 @@ export default function Hero() {
               beauty salon
             </p>
             <p className="mb-4 font-serif text-lg text-amber-400/90 md:text-xl">
-              Redefining Beauty
+               Redefining Beauty
             </p>
 
             <div className="flex flex-col gap-6 sm:flex-row text-xl">
