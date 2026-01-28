@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import Hero from "./Hero";
+import Concept from "./Concept";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // --- Placeholder Section Component ---
@@ -43,17 +44,12 @@ export default function Corporate() {
   // but for now we'll stick to native scroll with motion effects.
 
   return (
-    <div className="bg-zinc-50 selection:bg-amber-100 selection:text-amber-900">
+    <div className="bg-zinc-50 selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden w-full">
       {/* Hero Section */}
       <Hero />
 
-      {/* About Us Placeholder */}
-      <SectionPlaceholder 
-        id="about" 
-        title="Our Philosophy" 
-        subtitle="We believe in the transformative power of beauty. Our approach combines art, science, and intuitive care to reveal your authentic self."
-        bgColor="bg-zinc-100"
-      />
+      {/* Concept Section */}
+      <Concept />
 
       {/* Services Placeholder */}
       <div className="relative">
