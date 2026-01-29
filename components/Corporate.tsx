@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Hero from "./Hero";
 import Concept from "./Concept";
+import Style from "./Style";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // --- Placeholder Section Component ---
@@ -51,17 +52,10 @@ export default function Corporate() {
       {/* Concept Section */}
       <Concept />
 
-      {/* Services Placeholder */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-zinc-900 skew-y-3 transform origin-top-left -z-10 h-full w-full scale-110" />
-        <SectionPlaceholder 
-          id="services" 
-          title="Exquisite Services" 
-          subtitle="From precision cuts to restorative treatments, our menu is curated to provide a sanctuary for your hair and mind."
-          bgColor="bg-zinc-900"
-          textColor="text-zinc-50"
-        />
-      </div>
+      {/* Style Section */}
+      <Style />
+
+      {/* Gallery/Work Placeholder - Maybe rename or remove if Style covers this */}
 
       {/* Gallery/Work Placeholder */}
       <SectionPlaceholder 
