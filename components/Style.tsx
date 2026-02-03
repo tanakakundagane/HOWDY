@@ -9,39 +9,47 @@ import { ChevronLeft, ChevronRight, Pointer } from "lucide-react";
 const STYLES = [
   {
     id: 1,
-    image: "/hero1.jpg",
+    image: "/style1.png",
     title: "Natural Flow",
-    description: "風になびくような自然な毛流れと、透明感のあるカラーリング。日常に溶け込む上質なスタイル。",
-    tags: ["Cut", "Color", "Treatment"]
+    description:
+      "風になびくような自然な毛流れと、透明感のあるカラーリング。日常に溶け込む上質なスタイル。",
+    tags: ["Cut", "Color", "Treatment"],
   },
   {
     id: 2,
-    image: "/hero2.jpg",
+    image: "/style2.png",
     title: "Urban Mode",
-    description: "洗練された都会的なシルエット。計算されたカットラインが、あなたの個性を際立たせます。",
-    tags: ["Cut", "Perm"]
+    description:
+      "洗練された都会的なシルエット。計算されたカットラインが、あなたの個性を際立たせます。",
+    tags: ["Cut", "Perm"],
   },
   {
     id: 3,
-    image: "/hero3.jpg",
+    image: "/style3.png",
     title: "Classic Elegance",
-    description: "時代を超えて愛されるクラシックな美しさ。特別な日のための、華やかで気品あるスタイリング。",
-    tags: ["Set", "Make-up"]
-  }
+    description:
+      "時代を超えて愛されるクラシックな美しさ。特別な日のための、華やかで気品あるスタイリング。",
+    tags: ["Set", "Make-up"],
+  },
 ];
 
-const StyleItem = ({ item, index }: { item: typeof STYLES[0], index: number }) => {
+const StyleItem = ({
+  item,
+  index,
+}: {
+  item: (typeof STYLES)[0];
+  index: number;
+}) => {
   return (
-    <section className="h-screen w-screen min-w-full snap-start snap-always overflow-hidden bg-amber-50 text-zinc-900 shrink-0 relative">
+    <section className="h-full w-screen min-w-full snap-start snap-always overflow-hidden bg-amber-50 text-zinc-900 shrink-0 relative">
       <div className="flex h-full w-full flex-col md:flex-row">
-        
         {/* Left: Image Area */}
-        <div className="relative h-[60%] w-full md:h-full md:w-1/2 flex items-center justify-center px-8 pb-8 pt-32 md:p-16">
-          <motion.div 
+        <div className="relative h-[60%] w-full md:h-full md:w-1/2 flex items-center justify-center px-8 pb-8 pt-12 md:p-16">
+          <motion.div
             initial={{ scale: 1.1, opacity: 0.8 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="relative w-full aspect-3/4 rounded-sm overflow-hidden shadow-2xl max-w-lg"
+            className="relative h-full w-auto md:w-full md:h-auto aspect-3/4 rounded-sm overflow-hidden shadow-2xl max-w-full md:max-w-lg mx-auto"
           >
             <Image
               src={item.image}
@@ -68,22 +76,26 @@ const StyleItem = ({ item, index }: { item: typeof STYLES[0], index: number }) =
               <span>Collection</span>
             </div>
 
-            <h3 className="font-serif text-4xl md:text-6xl font-light text-zinc-900">{item.title}</h3>
-            
+            <h3 className="font-serif text-4xl md:text-6xl font-light text-zinc-900">
+              {item.title}
+            </h3>
+
             <p className="text-zinc-600 leading-loose text-sm md:text-base max-w-md">
               {item.description}
             </p>
 
             <div className="flex flex-wrap gap-2 mt-4">
               {item.tags.map((tag) => (
-                <span key={tag} className="px-3 py-1 border border-zinc-300 rounded-full text-xs text-zinc-500 tracking-wide bg-white/50">
+                <span
+                  key={tag}
+                  className="px-3 py-1 border border-zinc-300 rounded-full text-xs text-zinc-500 tracking-wide bg-white/50"
+                >
                   {tag}
                 </span>
               ))}
             </div>
           </motion.div>
         </div>
-
       </div>
     </section>
   );
@@ -106,25 +118,29 @@ const SwipeHint = ({ isVisible }: { isVisible: boolean }) => {
             <div className="relative w-12 h-12 flex items-center justify-center">
               <motion.div
                 animate={{ x: [-10, 10, -10] }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
                 }}
               >
                 <Pointer className="w-8 h-8 text-zinc-800 drop-shadow-sm" />
               </motion.div>
             </div>
-            <p className="text-zinc-800/80 text-xs tracking-widest font-medium drop-shadow-sm">SWIPE</p>
+            <p className="text-zinc-800/80 text-xs tracking-widest font-medium drop-shadow-sm">
+              SWIPE
+            </p>
           </div>
 
           {/* Desktop Scroll Hint */}
-          <motion.div 
+          <motion.div
             className="hidden md:flex flex-col items-center gap-3 bg-white/60 backdrop-blur-md px-6 py-3 rounded-full border border-zinc-200 shadow-lg"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <p className="text-zinc-800 text-sm tracking-[0.2em] font-medium uppercase">SCROLL &rarr;</p>
+            <p className="text-zinc-800 text-sm tracking-[0.2em] font-medium uppercase">
+              SCROLL &rarr;
+            </p>
           </motion.div>
         </motion.div>
       )}
@@ -148,7 +164,7 @@ export default function Style() {
       const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1); // -1 for rounding safety
-      
+
       // Hide hint once user starts scrolling
       if (scrollLeft > 50) {
         setShowSwipeHint(false);
@@ -162,7 +178,7 @@ export default function Style() {
       el.addEventListener("scroll", checkScroll);
       // Initial check
       checkScroll();
-      
+
       // Auto hide hint after 5 seconds if no interaction
       const timer = setTimeout(() => setShowSwipeHint(false), 5000);
 
@@ -186,10 +202,10 @@ export default function Style() {
   };
 
   return (
-    <div className="relative w-full bg-amber-50 h-screen overflow-hidden group">
+    <div className="relative w-full bg-amber-50 h-screen overflow-hidden group flex flex-col">
       {/* Title */}
-      <div className="absolute top-1 md:top-12 left-0 w-full z-10 flex justify-center pointer-events-none">
-        <motion.h2 
+      <div className="w-full shrink-0 pt-8 pb-4 flex justify-center pointer-events-none relative z-10">
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -200,22 +216,22 @@ export default function Style() {
       </div>
 
       {/* Horizontal Scroll Snap Container */}
-      <div 
+      <div
         ref={containerRef}
-        className="flex h-full w-full overflow-x-scroll snap-x snap-mandatory scroll-smooth no-scrollbar"
+        className="flex flex-1 w-full overflow-x-scroll snap-x snap-mandatory scroll-smooth no-scrollbar"
       >
         {STYLES.map((item, index) => (
           <StyleItem key={item.id} item={item} index={index} />
         ))}
       </div>
-      
+
       {/* Swipe/Scroll Hint */}
       <SwipeHint isVisible={showSwipeHint} />
 
       {/* Navigation Arrows */}
       <div className="absolute inset-y-0 left-0 w-16 md:w-24 z-20 flex items-center justify-center opacity-100 md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100 pointer-events-none">
         {canScrollLeft && (
-          <button 
+          <button
             onClick={() => scrollByItem("left")}
             className="p-3 md:p-4 rounded-full bg-white/60 backdrop-blur-sm text-zinc-800 hover:bg-white/90 transition-all pointer-events-auto border border-zinc-200 shadow-md"
             aria-label="Previous Style"
@@ -227,7 +243,7 @@ export default function Style() {
 
       <div className="absolute inset-y-0 right-0 w-16 md:w-24 z-20 flex items-center justify-center opacity-100 md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100 pointer-events-none">
         {canScrollRight && (
-          <button 
+          <button
             onClick={() => scrollByItem("right")}
             className="p-3 md:p-4 rounded-full bg-white/60 backdrop-blur-sm text-zinc-800 hover:bg-white/90 transition-all pointer-events-auto border border-zinc-200 shadow-md"
             aria-label="Next Style"
@@ -238,9 +254,9 @@ export default function Style() {
       </div>
 
       {/* Optional: Scroll Progress Bar */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-0 left-0 h-1 bg-amber-600 origin-left z-20"
-        style={{ scaleX: scrollYProgress }} 
+        style={{ scaleX: scrollYProgress }}
       />
     </div>
   );
