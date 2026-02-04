@@ -73,7 +73,7 @@ const StaffCard = ({
     >
       <motion.div
         layoutId={`image-container-${staff.id}`}
-        className="relative aspect-[3/4] w-full overflow-hidden"
+        className="relative aspect-[3/4] w-full max-w-[85%] mx-auto mt-4 overflow-hidden rounded-sm"
       >
         <Image
           src={staff.image}
@@ -172,14 +172,16 @@ export default function Staff() {
               {/* Image Side */}
               <motion.div
                 layoutId={`image-container-${selectedStaff.id}`}
-                className="relative w-full md:w-1/2 aspect-square md:aspect-auto"
+                className="relative w-full md:w-1/2 aspect-square md:aspect-auto p-4 md:p-8"
               >
-                <Image
-                  src={selectedStaff.image}
-                  alt={selectedStaff.name}
-                  fill
-                  className="object-cover"
-                />
+                <div className="relative w-full h-full overflow-hidden rounded-lg">
+                  <Image
+                    src={selectedStaff.image}
+                    alt={selectedStaff.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </motion.div>
 
               {/* Content Side */}
