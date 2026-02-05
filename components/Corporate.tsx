@@ -4,8 +4,8 @@ import React, { useRef } from "react";
 import Hero from "./Hero";
 import Concept from "./Concept";
 import Style from "./Style";
+import StaffClient from "./StaffClient";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Staff from "./Staff";
 
 // --- Placeholder Section Component ---
 const SectionPlaceholder = ({
@@ -50,7 +50,7 @@ const SectionPlaceholder = ({
   );
 };
 
-export default function Corporate() {
+export default function Corporate({ staffs }: { staffs: any[] }) {
   // Smooth scroll wrapper could go here (e.g., Lenis),
   // but for now we'll stick to native scroll with motion effects.
 
@@ -66,9 +66,8 @@ export default function Corporate() {
       <Style />
 
       {/* Gallery/Work Placeholder - Maybe rename or remove if Style covers this */}
-
+      <StaffClient staffs={staffs} />
       {/* Gallery/Work Placeholder */}
-      <Staff />
 
       {/* Contact Placeholder */}
       <SectionPlaceholder
