@@ -41,7 +41,7 @@ const StyleItem = ({
   index: number;
 }) => {
   return (
-    <section className="h-full w-screen min-w-full snap-start snap-always overflow-hidden bg-amber-50 text-zinc-900 shrink-0 relative">
+    <section className="h-full w-screen min-w-full snap-start snap-always overflow-hidden bg-[#FAF9F6] text-zinc-900 shrink-0 relative">
       <div className="flex h-full w-full flex-col md:flex-row">
         {/* Left: Image Area */}
         <div className="relative h-[60%] w-full md:h-full md:w-1/2 flex items-center justify-center px-8 pb-8 pt-12 md:p-16">
@@ -202,9 +202,9 @@ export default function Style() {
   };
 
   return (
-    <div className="relative w-full bg-amber-50 h-screen overflow-hidden group flex flex-col">
+    <div className="relative w-full bg-[#FAF9F6] h-screen overflow-hidden group flex flex-col">
       {/* Title */}
-      <div className="w-full shrink-0 pt-8 pb-4 flex justify-center pointer-events-none relative z-10">
+      <div className="w-full shrink-0 pt-8 pb-16 flex justify-center pointer-events-none relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}

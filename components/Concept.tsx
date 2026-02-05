@@ -33,7 +33,7 @@ function BackgroundTypography() {
 
 export default function Concept() {
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center bg-zinc-50 px-6 py-24 overflow-hidden">
+    <section className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#FAF9F6] px-6 py-24 overflow-hidden">
       
       {/* Typography Watermark Background */}
       <BackgroundTypography />

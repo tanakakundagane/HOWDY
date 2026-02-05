@@ -9,7 +9,7 @@ import { X } from "lucide-react";
 import * as THREE from "three";
 
 // 1. 型定義（microCMSの構造に合わせる）
-interface Staff {
+export interface Staff {
   id: string;
   name: string;
   introduction: string; // descriptionではなくintroduction
@@ -17,17 +17,23 @@ interface Staff {
     url: string;
   };
   // roleなどはmicroCMS側にまだ無いようなので、一旦オプション(?)にするか削除
-  role?: string; 
+  role?: string;
 }
 
 // 2. ★ここが足りなかった定義です！★
 // microCMSから渡されるデータ形式に合わせて修正しています
-const StaffCard = ({ staff, onClick }: { staff: Staff; onClick: () => void }) => {
+const StaffCard = ({
+  staff,
+  onClick,
+}: {
+  staff: Staff;
+  onClick: () => void;
+}) => {
   return (
     <motion.div
       layoutId={`card-container-${staff.id}`}
       onClick={onClick}
-      className="group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md"
+      className="group relative cursor-pointer overflow-hidden rounded-lg bg-[#FAF9F6] shadow-md"
     >
       <div className="relative aspect-[3/4] w-full max-w-[85%] mx-auto mt-4 overflow-hidden rounded-sm">
         <Image
@@ -43,11 +49,9 @@ const StaffCard = ({ staff, onClick }: { staff: Staff; onClick: () => void }) =>
       <div className="p-4 md:p-6">
         <span className="mb-1 block text-xs font-medium text-amber-600 uppercase">
           {/* roleがない場合は仮の文字を入れるか空にする */}
-          {staff.role || "Stylist"} 
+          {staff.role || "Stylist"}
         </span>
-        <h3 className="mb-2 font-serif text-xl text-zinc-900">
-          {staff.name}
-        </h3>
+        <h3 className="mb-2 font-serif text-xl text-zinc-900">{staff.name}</h3>
         <p className="line-clamp-2 text-sm text-zinc-600">
           {staff.introduction} {/* introductionに変更！ */}
         </p>
@@ -62,8 +66,8 @@ const StaffCard = ({ staff, onClick }: { staff: Staff; onClick: () => void }) =>
 const LiquidShaderMaterial = shaderMaterial(
   {
     uTime: 0,
-    uColor1: new THREE.Color("#ffffff"), // 薄いグレー（背景色に馴染む色）
-    uColor2: new THREE.Color("#ffffff"), // 薄いアンバー（アクセント色）
+    uColor1: new THREE.Color("bg-[#FAF9F6]"), // 薄いグレー（背景色に馴染む色）
+    uColor2: new THREE.Color("bg-[#FAF9F6]"), // 薄いアンバー（アクセント色）
   },
   // Vertex Shader
   `
@@ -124,7 +128,9 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
   return (
     <section className="relative w-full bg-zinc-50 py-24 md:py-32 px-6 overflow-hidden">
       {/* 背景のCanvas */}
-      <div className="absolute inset-0 z-0 opacity-100"> {/* opacityで色の強さを調整できます */}
+      <div className="absolute inset-0 z-0 opacity-100">
+        {" "}
+        {/* opacityで色の強さを調整できます */}
         <Canvas camera={{ position: [0, 0, 1] }}>
           <LiquidBackground />
         </Canvas>
@@ -132,8 +138,12 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="mb-16 text-center">
-          <h2 className="text-amber-600/80 tracking-[0.4em] text-sm uppercase font-medium mb-4">Our Staff</h2>
-          <h3 className="font-serif text-4xl md:text-5xl text-zinc-900">Creative Team</h3>
+          <h2 className="text-amber-600/80 tracking-[0.4em] text-sm uppercase font-medium mb-4">
+            Our Staff
+          </h2>
+          <h3 className="font-serif text-4xl md:text-5xl text-zinc-900">
+            Creative Team
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
