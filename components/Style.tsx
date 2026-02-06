@@ -49,7 +49,7 @@ const StyleItem = ({
             initial={{ scale: 1.1, opacity: 0.8 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="relative h-full w-auto md:w-full md:h-auto aspect-3/4 rounded-full overflow-hidden shadow-2xl max-w-full md:max-w-lg mx-auto"
+            className="relative w-full h-full aspect-[3/4] rounded-full overflow-hidden shadow-2xl mx-auto"
           >
             <Image
               src={item.image}
