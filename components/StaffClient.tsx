@@ -38,20 +38,20 @@ const StaffCard = ({
     <motion.div
       layoutId={`card-container-${staff.id}`}
       onClick={onClick}
-      className="group relative cursor-pointer overflow-hidden rounded-lg bg-[#FAF9F6] shadow-md"
+      className="group relative cursor-pointer"
     >
-      <div className="relative aspect-[3/4] w-full max-w-[85%] mx-auto mt-4 overflow-hidden rounded-sm">
+      <div className="relative aspect-3/4 w-full overflow-hidden rounded-sm">
         <Image
           src={staff.image.url}
           alt={staff.name}
           fill
-          unoptimized={true} // ★これを追加
+          unoptimized={true}
           className="object-cover transition-transform duration-500 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, 33vw" // これを入れるとさらに最適化されます
+          sizes="(max-width: 768px) 100vw, 33vw"
         />
       </div>
 
-      <div className="p-4 md:p-6">
+      <div className="mt-4">
         <span className="mb-1 block text-xs font-medium text-amber-600 uppercase">
           {/* roleがない場合は仮の文字を入れるか空にする */}
           {staff.role || "Stylist"}
@@ -71,8 +71,8 @@ const StaffCard = ({
 const LiquidShaderMaterial = shaderMaterial(
   {
     uTime: 0,
-    uColor1: new THREE.Color("bg-[#FAF9F6]"), // 薄いグレー（背景色に馴染む色）
-    uColor2: new THREE.Color("bg-[#FAF9F6]"), // 薄いアンバー（アクセント色）
+    uColor1: new THREE.Color("#FAF9F6"), // 背景色
+    uColor2: new THREE.Color("#FFFBEB"), // アンバー50（Concept.tsxのグラデーションに合わせる）
   },
   // Vertex Shader
   `
@@ -136,6 +136,20 @@ function BackgroundTypography() {
       </motion.div>
 
       {/* Bottom Line */}
+      <motion.div
+        style={{ x: xReverse }}
+        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold ml-[-20%]"
+      >
+        PROFESSIONAL STYLISTS PROFESSIONAL STYLISTS
+      </motion.div>
+
+      <motion.div
+        style={{ x }}
+        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold"
+      >
+        CREATIVE TEAM CREATIVE TEAM CREATIVE TEAM
+      </motion.div>
+
       <motion.div
         style={{ x: xReverse }}
         className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold ml-[-20%]"
