@@ -5,6 +5,7 @@ import Hero from "./Hero";
 import Concept from "./Concept";
 import Style from "./Style";
 import StaffClient from "./StaffClient";
+import Recruit from "./Recruit";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // --- Placeholder Section Component ---
@@ -68,6 +69,9 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
       {/* Gallery/Work Placeholder - Maybe rename or remove if Style covers this */}
       <StaffClient staffs={staffs} />
       {/* Gallery/Work Placeholder */}
+
+      {/* Recruit Section */}
+      <Recruit />
 
       {/* Contact Placeholder */}
       <SectionPlaceholder
