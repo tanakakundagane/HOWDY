@@ -202,7 +202,7 @@ export default function Style() {
   };
 
   return (
-    <div className="relative w-full bg-[#FAF9F6] h-screen overflow-hidden group flex flex-col">
+    <div className="relative w-full bg-[#FAF9F6] h-[100svh] overflow-hidden group flex flex-col">
       {/* Title */}
       <div className="w-full shrink-0 pt-8 pb-16 flex justify-center pointer-events-none relative z-10">
         <motion.h2

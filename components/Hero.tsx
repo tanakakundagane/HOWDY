@@ -85,10 +85,10 @@ const IMAGES = ["/hero1.jpg", "/hero2.jpg", "/hero3.jpg"];
 function SliderScene({ activeIndex }: { activeIndex: number }) {
   const { viewport, size } = useThree();
   const materialRef = useRef<any>(null!);
-  
+
   // Load textures
   const textures = useTexture(IMAGES);
-  
+
   // Adjust textures to cover
   textures.forEach((tex) => {
     tex.wrapS = THREE.MirroredRepeatWrapping;
@@ -99,8 +99,8 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
   const progress = useRef(0);
   const targetProgress = useRef(0);
   const lastIndex = useRef(activeIndex);
-  
-  // For robustness, check each image if loaded. 
+
+  // For robustness, check each image if loaded.
   // We cast to HTMLImageElement to access width/height safely.
   const imgWidth = (textures[0].image as HTMLImageElement)?.width || 1920;
   const imgHeight = (textures[0].image as HTMLImageElement)?.height || 1080;
@@ -114,8 +114,12 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
     if (materialRef.current) {
       // Lerp progress
       const speed = 2.0;
-      progress.current = THREE.MathUtils.lerp(progress.current, targetProgress.current, delta * speed);
-      
+      progress.current = THREE.MathUtils.lerp(
+        progress.current,
+        targetProgress.current,
+        delta * speed
+      );
+
       // Reset logic when transition completes
       if (progress.current > 0.99 && targetProgress.current === 1) {
         lastIndex.current = activeIndex;
@@ -125,9 +129,15 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
 
       // Pass uniforms
       materialRef.current.uTime = state.clock.getElapsedTime();
-      materialRef.current.uResolution = new THREE.Vector2(size.width, size.height);
-      materialRef.current.uImageResolution = new THREE.Vector2(imgWidth, imgHeight);
-      
+      materialRef.current.uResolution = new THREE.Vector2(
+        size.width,
+        size.height
+      );
+      materialRef.current.uImageResolution = new THREE.Vector2(
+        imgWidth,
+        imgHeight
+      );
+
       // Manage "current" and "next" textures
       if (targetProgress.current === 1) {
         materialRef.current.uTexture1 = textures[lastIndex.current];
@@ -159,7 +169,9 @@ const MagneticButton = ({ children }: { children: React.ReactNode }) => {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <span className="relative z-10 font-medium tracking-wide">{children}</span>
+      <span className="relative z-10 font-medium tracking-wide">
+        {children}
+      </span>
     </motion.button>
   );
 };
@@ -178,7 +190,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative h-screen w-full overflow-hidden bg-zinc-900">
+    <section
+      id="hero"
+      className="relative h-[100svh] w-full overflow-hidden bg-zinc-900"
+    >
       {/* 3D Background (Slider) */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
@@ -205,13 +220,11 @@ export default function Hero() {
               beauty salon
             </p>
             <p className="mb-4 font-serif text-lg text-amber-400/90 md:text-xl">
-               Redefining Beauty
+              Redefining Beauty
             </p>
 
             <div className="flex flex-col gap-6 sm:flex-row text-xl">
-               <MagneticButton>
-                  お問い合わせ
-               </MagneticButton>
+              <MagneticButton>お問い合わせ</MagneticButton>
             </div>
           </motion.div>
         </div>
@@ -224,7 +237,9 @@ export default function Hero() {
             key={i}
             onClick={() => setActiveIndex(i)}
             className={`h-1 transition-all duration-500 ${
-              i === activeIndex ? "w-12 bg-white" : "w-6 bg-white/30 hover:bg-white/60"
+              i === activeIndex
+                ? "w-12 bg-white"
+                : "w-6 bg-white/30 hover:bg-white/60"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />
@@ -232,7 +247,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
