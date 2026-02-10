@@ -9,9 +9,10 @@ function BackgroundTypography() {
   // Parallax effect based on scroll
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   const xReverse = useTransform(scrollYProgress, [0, 1], ["-20%", "0%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]); // Vertical parallax for background
 
   return (
-    <div className="absolute inset-0 z-0 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.03] select-none">
+    <motion.div style={{ y }} className="absolute inset-0 z-0 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.03] select-none">
       {/* Top Line */}
       <motion.div 
         style={{ x }}
@@ -27,22 +28,44 @@ function BackgroundTypography() {
       >
         WEAR YOUR IDENTITY WEAR YOUR IDENTITY
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Concept() {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]); // Parallax for content box
+
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#FAF9F6] px-6 py-24 overflow-hidden">
+    <section ref={containerRef} className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#FAF9F6] px-6 py-24 overflow-hidden">
       
       {/* Typography Watermark Background */}
       <BackgroundTypography />
 
-      {/* Background Decor (Subtle Blur/Gradient) - Kept for softness */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] rounded-full bg-gradient-radial from-amber-50/40 to-transparent opacity-60 blur-3xl pointer-events-none -z-10" />
+      {/* Background Decor (Subtle Blur/Gradient) */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 0.3, 0.5],
+        }}
+        transition={{ 
+          duration: 10, 
+          repeat: Infinity,
+          ease: "easeInOut" 
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] rounded-full bg-gradient-radial from-amber-100/60 to-transparent blur-3xl pointer-events-none -z-10" 
+      />
 
-      <div className="container relative z-10 mx-auto max-w-5xl">
-        <div className="flex flex-col items-center text-center">
+      <div className="container relative z-10 mx-auto max-w-5xl perspective-1000">
+        <motion.div 
+          style={{ y: contentY }}
+          className="flex flex-col items-center text-center bg-white/40 backdrop-blur-md border border-white/60 p-12 md:p-20 rounded-2xl shadow-2xl shadow-zinc-200/50"
+        >
           
           {/* Main Copy - Wear Your Identity */}
           <motion.h2 
@@ -95,7 +118,7 @@ export default function Concept() {
             </p>
           </motion.div>
 
-        </div>
+        </motion.div>
       </div>
     </section>
   );
