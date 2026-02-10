@@ -165,7 +165,7 @@ function SliderScene({ activeIndex }: { activeIndex: number }) {
 const MagneticButton = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.button
-      className="relative overflow-hidden rounded-full bg-white/10 px-8 py-4 text-white backdrop-blur-md transition-colors hover:bg-white/20 border border-white/20"
+      className="relative overflow-hidden rounded-full bg-white/60 px-8 py-4 text-zinc-900 backdrop-blur-md transition-colors hover:bg-white/80 border border-zinc-200"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
@@ -192,17 +192,22 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-[100svh] w-full overflow-hidden bg-zinc-900"
+      className="relative h-[100svh] w-full overflow-hidden bg-[#FAF9F6]"
     >
       {/* 3D Background (Slider) */}
-      <div className="absolute inset-0 z-0">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+        className="absolute inset-0 z-0"
+      >
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <SliderScene activeIndex={activeIndex} />
         </Canvas>
-      </div>
+      </motion.div>
 
       {/* Overlay Gradient for readability */}
-      <div className="absolute inset-0 z-0 bg-black/30 md:bg-black/20" />
+      <div className="absolute inset-0 z-0 bg-white/20" />
 
       {/* Content Overlay */}
       <div className="relative z-10 flex h-full w-full items-center justify-center px-6 md:justify-start md:px-20">
@@ -213,13 +218,13 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-col items-center md:items-start"
           >
-            <h1 className="mb-4 font-serif text-6xl font-bold leading-tight text-white md:text-8xl lg:text-9xl drop-shadow-lg tracking-tighter">
+            <h1 className="mb-4 font-serif text-6xl font-bold leading-tight text-zinc-900 md:text-8xl lg:text-9xl drop-shadow-sm tracking-tighter">
               HOWDY
             </h1>
-            <p className="mb-8 font-serif text-2xl font-light text-white/90 md:text-3xl tracking-widest uppercase">
+            <p className="mb-8 font-serif text-2xl font-light text-zinc-600 md:text-3xl tracking-widest uppercase">
               beauty salon
             </p>
-            <p className="mb-4 font-serif text-lg text-amber-400/90 md:text-xl">
+            <p className="mb-4 font-serif text-lg text-amber-600 md:text-xl">
               Redefining Beauty
             </p>
 
@@ -238,8 +243,8 @@ export default function Hero() {
             onClick={() => setActiveIndex(i)}
             className={`h-1 transition-all duration-500 ${
               i === activeIndex
-                ? "w-12 bg-white"
-                : "w-6 bg-white/30 hover:bg-white/60"
+                ? "w-12 bg-amber-900"
+                : "w-6 bg-amber-900/30 hover:bg-amber-900/60"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />
@@ -257,7 +262,7 @@ export default function Hero() {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ArrowDown className="h-6 w-6 text-white/70" />
+          <ArrowDown className="h-6 w-6 text-amber-900/50" />
         </motion.div>
       </motion.div>
     </section>
