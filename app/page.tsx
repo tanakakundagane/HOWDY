@@ -1,17 +1,3 @@
-// import Corporate from "@/components/Corporate";
-// import Test from "@/components/Test";
-
-
-
-// export default function Home() {
-//   return (
-//     <main>
-//       <Corporate />
-//       <Test />
-//     </main>
-//   );
-// }
-
 import { client } from '@/libs/client';
 import Corporate from "@/components/Corporate";
 
