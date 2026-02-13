@@ -118,47 +118,6 @@ const LiquidBackground = () => {
   );
 };
 
-function BackgroundTypography() {
-  const { scrollYProgress } = useScroll();
-
-  // Parallax effect based on scroll
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
-  const xReverse = useTransform(scrollYProgress, [0, 1], ["-10%", "0%"]);
-
-  return (
-    <div className="absolute inset-0 z-0 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.05] select-none">
-      {/* Top Line */}
-      <motion.div
-        style={{ x }}
-        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold"
-      >
-        CREATIVE TEAM CREATIVE TEAM CREATIVE TEAM
-      </motion.div>
-
-      {/* Bottom Line */}
-      <motion.div
-        style={{ x: xReverse }}
-        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold ml-[-20%]"
-      >
-        PROFESSIONAL STYLISTS PROFESSIONAL STYLISTS
-      </motion.div>
-
-      <motion.div
-        style={{ x }}
-        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold"
-      >
-        CREATIVE TEAM CREATIVE TEAM CREATIVE TEAM
-      </motion.div>
-
-      <motion.div
-        style={{ x: xReverse }}
-        className="whitespace-nowrap font-serif text-[15vw] leading-none text-zinc-900 font-bold ml-[-20%]"
-      >
-        PROFESSIONAL STYLISTS PROFESSIONAL STYLISTS
-      </motion.div>
-    </div>
-  );
-}
 
 // --- (ここから下に LiquidShaderMaterial や LiquidBackground の定義が続く) ---
 
@@ -173,9 +132,9 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
   }, [selectedId]);
 
   return (
-    <section className="relative w-full bg-[#FAF9F6] py-24 md:py-32 px-6 overflow-hidden">
+    <section className="relative w-full bg-transparent py-24 md:py-32 px-6 overflow-hidden">
       {/* 背景のCanvas */}
-      <div className="absolute inset-0 z-0 opacity-100">
+      <div className="absolute inset-0 z-0 opacity-80">
         {" "}
         {/* opacityで色の強さを調整できます */}
         <Canvas camera={{ position: [0, 0, 1] }}>
@@ -183,7 +142,6 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
         </Canvas>
       </div>
 
-      <BackgroundTypography />
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="mb-16 text-center">

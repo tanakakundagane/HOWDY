@@ -3,37 +3,6 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-function BackgroundTypography() {
-  const { scrollYProgress } = useScroll();
-
-  // Parallax effect based on scroll
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
-  const xReverse = useTransform(scrollYProgress, [0, 1], ["-20%", "0%"]);
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]); // Vertical parallax for background
-
-  return (
-    <motion.div
-      style={{ y }}
-      className="absolute inset-0 z-0 flex flex-col justify-center overflow-hidden pointer-events-none opacity-[0.03] select-none"
-    >
-      {/* Top Line */}
-      <motion.div
-        style={{ x }}
-        className="whitespace-nowrap font-serif text-[20vw] leading-none text-zinc-900 font-bold"
-      >
-        HOWDY BEAUTY SALON HOWDY BEAUTY SALON
-      </motion.div>
-
-      {/* Bottom Line */}
-      <motion.div
-        style={{ x: xReverse }}
-        className="whitespace-nowrap font-serif text-[20vw] leading-none text-zinc-900 font-bold ml-[-20%]"
-      >
-        WEAR YOUR IDENTITY WEAR YOUR IDENTITY
-      </motion.div>
-    </motion.div>
-  );
-}
 
 // Content Blocks Data
 const CONCEPT_BLOCKS = [
@@ -170,10 +139,8 @@ export default function Concept() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full bg-[#FAF9F6] px-6 py-24 overflow-hidden"
+      className="relative w-full bg-transparent px-6 py-24 overflow-hidden"
     >
-      {/* Typography Watermark Background */}
-      <BackgroundTypography />
 
       {/* Background Decor (Subtle Blur/Gradient) */}
       <motion.div

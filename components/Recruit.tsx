@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Recruit() {
   return (
-    <section className="relative h-[100svh] w-full overflow-hidden bg-[#FAF9F6] flex items-center justify-center">
+    <section className="relative h-[100svh] w-full overflow-hidden bg-transparent flex items-center justify-center">
       {/* Background Image - Slow Zoom */}
       <motion.div
         initial={{ scale: 1 }}

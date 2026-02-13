@@ -6,6 +6,7 @@ import Concept from "./Concept";
 import Style from "./Style";
 import StaffClient from "./StaffClient";
 import Recruit from "./Recruit";
+import GlobalTypography from "./GlobalTypography";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // --- Placeholder Section Component ---
@@ -56,7 +57,10 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
   // but for now we'll stick to native scroll with motion effects.
 
   return (
-    <div className="bg-zinc-50 selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden w-full">
+    <div className="bg-[#FAF9F6] selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden w-full relative">
+      {/* Global Scrolling Typography */}
+      <GlobalTypography />
+
       {/* Hero Section */}
       <Hero />
 

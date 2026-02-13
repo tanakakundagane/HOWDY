@@ -192,7 +192,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-[100svh] w-full overflow-hidden bg-[#FAF9F6]"
+      className="relative h-[100svh] w-full overflow-hidden bg-[#FAF9F6] z-10"
     >
       {/* 3D Background (Slider) */}
       <motion.div
