@@ -64,7 +64,7 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
       <Concept />
 
       {/* Style Section */}
-      <Style />
+      {/* <Style /> */}
 
       {/* Gallery/Work Placeholder - Maybe rename or remove if Style covers this */}
       <StaffClient staffs={staffs} />

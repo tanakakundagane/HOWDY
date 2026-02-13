@@ -41,57 +41,63 @@ const CONCEPT_BLOCKS = [
     id: 1,
     title: "Wear Your Identity.",
     text: "髪は、体の一部であり、\n最も饒舌なファッションである。",
-    image: "/style1.png",
+    image: "/concept1.jpg",
     align: "right", // Image on right, Text overlaps on left
     styles: {
       imageAspect: "aspect-[3/4]",
       imageWidth: "w-[80%] md:w-6/12 ml-auto",
       textOverlap: "md:-mr-32 -mt-16 md:mt-0 z-20",
       containerHeight: "pb-32",
-    }
+    },
   },
   {
     id: 2,
     title: "Signature Style",
     text: "HOWDYが提案するのは、\nトレンドの先にある\n「あなた自身のシグネチャー」。",
-    image: "/style2.png",
+    image: "/concept2.jpg",
     align: "left",
     styles: {
       imageAspect: "aspect-[4/5]", // Vertical
       imageWidth: "w-[70%] md:w-5/12 mr-auto -mt-20 md:-mt-32",
       textOverlap: "md:-ml-24 -mt-12 md:mt-24 z-20",
       containerHeight: "pb-24",
-    }
+    },
   },
   {
     id: 3,
     title: "Sensibility",
     text: "厳選されたプロダクトと、\n研ぎ澄まされた感性が交差する場所で、",
-    image: "/style3.png",
+    image: "/concept3.jpg",
     align: "right", // Center-ish
     styles: {
       imageAspect: "aspect-square", // Square
       imageWidth: "w-[60%] md:w-4/12 mx-auto md:ml-auto md:mr-24 -mt-12",
       textOverlap: "md:mr-auto md:-ml-12 -mt-8 md:mt-0 z-20",
       containerHeight: "pb-40",
-    }
+    },
   },
   {
     id: 4,
     title: "Elevate Your Daily",
     text: "鏡を見るたびに心が昂る、\nそんな日常をデザインします。",
-    image: "/hero1.jpg", 
+    image: "/concept4.jpg",
     align: "left",
     styles: {
       imageAspect: "aspect-[16/9]", // Cinematic
       imageWidth: "w-full md:w-10/12 mx-auto -mt-24",
-      textOverlap: "mx-auto -mt-20 md:-mt-32 bg-white/80 z-20",
+      textOverlap: "mx-auto -mt-20 md:-mt-32 z-20",
       containerHeight: "pb-24",
-    }
+    },
   },
 ];
 
-const ConceptBlock = ({ block, index }: { block: (typeof CONCEPT_BLOCKS)[0]; index: number }) => {
+const ConceptBlock = ({
+  block,
+  index,
+}: {
+  block: (typeof CONCEPT_BLOCKS)[0];
+  index: number;
+}) => {
   const isRight = block.align === "right";
   const { styles } = block;
   const blockRef = React.useRef(null);
@@ -102,10 +108,14 @@ const ConceptBlock = ({ block, index }: { block: (typeof CONCEPT_BLOCKS)[0]; ind
 
   // Parallax for image inside the container
   const imageY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  
+
   return (
-    <div ref={blockRef} className={`flex flex-col md:flex-row items-center justify-center w-full relative ${isRight ? "md:flex-row-reverse" : ""} ${styles.containerHeight}`}>
-      
+    <div
+      ref={blockRef}
+      className={`flex flex-col md:flex-row items-center justify-center w-full relative ${
+        isRight ? "md:flex-row-reverse" : ""
+      } ${styles.containerHeight}`}
+    >
       {/* Background Image Area */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
@@ -115,9 +125,9 @@ const ConceptBlock = ({ block, index }: { block: (typeof CONCEPT_BLOCKS)[0]; ind
         className={`relative ${styles.imageWidth} ${styles.imageAspect} z-0`}
       >
         <div className="relative w-full h-full shadow-2xl overflow-hidden">
-          <motion.div 
-             className="w-full h-[120%] relative -top-[10%]" // Increase height for parallax movement
-             style={{ y: imageY }}
+          <motion.div
+            className="w-full h-[120%] relative -top-[10%]" // Increase height for parallax movement
+            style={{ y: imageY }}
           >
             <img
               src={block.image}
@@ -136,7 +146,9 @@ const ConceptBlock = ({ block, index }: { block: (typeof CONCEPT_BLOCKS)[0]; ind
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10%" }}
         transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-        className={`relative flex flex-col justify-center p-8 md:p-16 bg-white/80 backdrop-blur-xl shadow-2xl max-w-md w-[90%] md:w-auto border border-white/40 ${styles.textOverlap} ${isRight ? "md:text-right items-end" : "md:text-left items-start"}`}
+        className={`relative flex flex-col justify-center p-8 md:p-16 bg-white/10 backdrop-blur-md shadow-lg max-w-md w-[90%] md:w-auto border border-white/20 ${
+          styles.textOverlap
+        } ${isRight ? "md:text-right items-end" : "md:text-left items-start"}`}
       >
         <span className="text-amber-600/80 text-xs tracking-[0.3em] uppercase mb-6 font-medium block">
           0{index + 1} Concept
@@ -148,39 +160,39 @@ const ConceptBlock = ({ block, index }: { block: (typeof CONCEPT_BLOCKS)[0]; ind
           {block.text}
         </p>
       </motion.div>
-
     </div>
   );
 };
 
 export default function Concept() {
   const containerRef = React.useRef(null);
-  
+
   return (
-    <section ref={containerRef} className="relative w-full bg-[#FAF9F6] px-6 py-24 overflow-hidden">
-      
+    <section
+      ref={containerRef}
+      className="relative w-full bg-[#FAF9F6] px-6 py-24 overflow-hidden"
+    >
       {/* Typography Watermark Background */}
       <BackgroundTypography />
 
       {/* Background Decor (Subtle Blur/Gradient) */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.5, 0.3, 0.5],
         }}
-        transition={{ 
-          duration: 10, 
+        transition={{
+          duration: 10,
           repeat: Infinity,
-          ease: "easeInOut" 
+          ease: "easeInOut",
         }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] rounded-full bg-gradient-radial from-amber-100/60 to-transparent blur-3xl pointer-events-none -z-10" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] rounded-full bg-gradient-radial from-amber-100/60 to-transparent blur-3xl pointer-events-none -z-10"
       />
 
       <div className="container relative z-10 mx-auto max-w-6xl">
         <div className="flex flex-col items-center">
-          
           {/* Main Title */}
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
@@ -196,7 +208,6 @@ export default function Concept() {
               <ConceptBlock key={block.id} block={block} index={index} />
             ))}
           </div>
-
         </div>
       </div>
     </section>
