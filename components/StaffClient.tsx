@@ -1,32 +1,21 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import * as THREE from "three";
 
 // 1. 型定義（microCMSの構造に合わせる）
 export interface Staff {
   id: string;
   name: string;
-  introduction: string; // descriptionではなくintroduction
+  introduction: string;
   image: {
     url: string;
   };
-  // roleなどはmicroCMS側にまだ無いようなので、一旦オプション(?)にするか削除
   role?: string;
 }
 
-// 2. ★ここが足りなかった定義です！★
-// microCMSから渡されるデータ形式に合わせて修正しています
 const StaffCard = ({
   staff,
   onClick,
@@ -38,88 +27,42 @@ const StaffCard = ({
     <motion.div
       layoutId={`card-container-${staff.id}`}
       onClick={onClick}
-      className="group relative cursor-pointer"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="group cursor-pointer flex flex-col items-center gap-6"
     >
-      <div className="relative aspect-3/4 w-full overflow-hidden rounded-sm">
-        <Image
-          src={staff.image.url}
-          alt={staff.name}
-          fill
-          unoptimized={true}
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, 33vw"
-        />
+      <div className="relative w-full aspect-[3/4] overflow-hidden shadow-xl shadow-zinc-200/50 transition-shadow duration-500 group-hover:shadow-2xl group-hover:shadow-zinc-300/50">
+        <motion.div
+          className="w-full h-full relative"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Image
+            src={staff.image.url}
+            alt={staff.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </motion.div>
       </div>
 
-      <div className="mt-4">
-        <span className="mb-1 block text-xs font-medium text-amber-600 uppercase">
-          {/* roleがない場合は仮の文字を入れるか空にする */}
+      <div className="text-center">
+        <h3 className="font-serif text-3xl text-zinc-800 group-hover:text-amber-800 transition-colors duration-300 tracking-wide">
+          {staff.name}
+        </h3>
+        <div className="w-8 h-px bg-amber-200 mx-auto my-3 group-hover:w-16 transition-all duration-300" />
+        <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
           {staff.role || "Stylist"}
-        </span>
-        <h3 className="mb-2 font-serif text-xl text-zinc-900">{staff.name}</h3>
-        <p className="line-clamp-2 text-sm text-zinc-600">
-          {staff.introduction} {/* introductionに変更！ */}
         </p>
       </div>
     </motion.div>
   );
 };
-
-// --- Shader Definitions ---
-
-// ゆらゆら動く液体のような背景の計算式
-const LiquidShaderMaterial = shaderMaterial(
-  {
-    uTime: 0,
-    uColor1: new THREE.Color("#FAF9F6"), // 背景色
-    uColor2: new THREE.Color("#FFFBEB"), // アンバー50（Concept.tsxのグラデーションに合わせる）
-  },
-  // Vertex Shader
-  `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-  `,
-  // Fragment Shader
-  `
-  uniform float uTime;
-  uniform vec3 uColor1;
-  uniform vec3 uColor2;
-  varying vec2 vUv;
-  
-  void main() {
-    vec2 p = vUv * 2.0 - 1.0;
-    float noise = sin(p.x * 2.0 + uTime * 0.5) * cos(p.y * 2.0 + uTime * 0.3);
-    vec3 color = mix(uColor1, uColor2, noise * 0.5 + 0.5);
-    gl_FragColor = vec4(color, 1.0);
-  }
-  `
-);
-
-extend({ LiquidShaderMaterial });
-
-// Canvas内で動く背景本体
-const LiquidBackground = () => {
-  const meshRef = useRef<any>(null);
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.uTime = state.clock.getElapsedTime();
-    }
-  });
-
-  return (
-    <mesh scale={[3, 3, 1]}>
-      <planeGeometry args={[1, 1, 16, 16]} />
-      {/* @ts-ignore */}
-      <liquidShaderMaterial ref={meshRef} transparent />
-    </mesh>
-  );
-};
-
-
-// --- (ここから下に LiquidShaderMaterial や LiquidBackground の定義が続く) ---
 
 export default function StaffClient({ staffs }: { staffs: Staff[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -132,28 +75,36 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
   }, [selectedId]);
 
   return (
-    <section className="relative w-full bg-transparent py-24 md:py-32 px-6 overflow-hidden">
-      {/* 背景のCanvas */}
-      <div className="absolute inset-0 z-0 opacity-80">
-        {" "}
-        {/* opacityで色の強さを調整できます */}
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <LiquidBackground />
-        </Canvas>
+    <section className="relative w-full min-h-screen bg-transparent overflow-hidden py-24">
+      {/* Background Decor (Similar to Concept.tsx) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] rounded-full bg-gradient-radial from-amber-100/60 to-transparent blur-3xl pointer-events-none -z-10" />
+
+      {/* Static Overlay Title */}
+      <div className="w-full flex justify-center mb-20">
+        <div className="text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-amber-600/60 tracking-[0.4em] text-xs uppercase font-medium mb-3"
+          >
+            Our Staff
+          </motion.h2>
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-serif text-4xl md:text-5xl text-zinc-900/90"
+          >
+            Creative Team
+          </motion.h3>
+        </div>
       </div>
 
-
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="mb-16 text-center">
-          <h2 className="text-amber-600/80 tracking-[0.4em] text-sm uppercase font-medium mb-4">
-            Our Staff
-          </h2>
-          <h3 className="font-serif text-4xl md:text-5xl text-zinc-900">
-            Creative Team
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      {/* Staff Grid */}
+      <div className="container mx-auto px-6 md:px-12 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {staffs.map((staff) => (
             <StaffCard
               key={staff.id}
@@ -164,7 +115,7 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
         </div>
       </div>
 
-      {/* モーダルの中身（AnimatePresence）も selectedStaff.image.url に修正してここに入れる */}
+      {/* モーダル (Modal) */}
       <AnimatePresence>
         {selectedId && selectedStaff && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
@@ -174,40 +125,41 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedId(null)}
-              className="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-zinc-900/40 backdrop-blur-sm"
             />
 
             {/* モーダル本体 */}
             <motion.div
               layoutId={`card-container-${selectedId}`}
-              className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl md:flex h-[80vh] md:h-auto"
+              className="relative w-full max-w-5xl overflow-hidden bg-white/95 backdrop-blur-xl shadow-2xl md:flex max-h-[90vh] md:h-auto border border-white/20"
             >
               {/* 画像エリア */}
-              <div className="relative h-64 w-full md:h-[600px] md:w-1/2">
+              <div className="relative h-64 w-full md:h-[600px] md:w-5/12 shrink-0">
                 <Image
                   src={selectedStaff.image.url}
                   alt={selectedStaff.name}
                   fill
-                  unoptimized={true}
                   className="object-cover"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent md:hidden" />
               </div>
 
               {/* テキストエリア */}
-              <div className="flex w-full flex-col justify-center p-8 md:w-1/2 md:p-12">
+              <div className="flex w-full flex-col p-8 md:w-7/12 md:p-16 overflow-y-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="flex flex-col h-full justify-center"
                 >
-                  <span className="mb-2 block text-xs font-medium tracking-widest text-amber-600 uppercase">
+                  <span className="mb-4 block text-[10px] font-medium tracking-[0.3em] text-amber-600 uppercase">
                     {selectedStaff.role || "Stylist"}
                   </span>
-                  <h2 className="mb-6 font-serif text-3xl md:text-5xl text-zinc-900">
+                  <h2 className="mb-8 font-serif text-4xl md:text-5xl text-zinc-900 leading-tight">
                     {selectedStaff.name}
                   </h2>
-                  <div className="mb-8 h-px w-12 bg-amber-200" />
-                  <p className="text-lg leading-relaxed text-zinc-600 whitespace-pre-wrap">
+                  <div className="mb-8 h-px w-24 bg-gradient-to-r from-amber-300 to-transparent" />
+                  <p className="text-base leading-[2.2] text-zinc-600 whitespace-pre-wrap font-sans tracking-wide">
                     {selectedStaff.introduction}
                   </p>
                 </motion.div>
@@ -215,7 +167,7 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
                 {/* 閉じるボタン */}
                 <button
                   onClick={() => setSelectedId(null)}
-                  className="absolute top-6 right-6 rounded-full bg-white/10 p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
+                  className="absolute top-6 right-6 p-2 text-zinc-400 hover:text-zinc-900 transition-colors z-10 hover:rotate-90 duration-500"
                 >
                   <X size={24} />
                 </button>
@@ -224,8 +176,6 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
           </div>
         )}
       </AnimatePresence>
-      {/* ★ ここまで ★ */}
-      {/* ... (略) ... */}
     </section>
   );
 }
