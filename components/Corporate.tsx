@@ -6,6 +6,7 @@ import Concept from "./Concept";
 import Style from "./Style";
 import StaffClient from "./StaffClient";
 import Recruit from "./Recruit";
+import Access from "./Access";
 import GlobalTypography from "./GlobalTypography";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -76,6 +77,12 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
 
       {/* Recruit Section */}
       <Recruit />
+
+      {/* Access Section */}
+      <Access />
+
+
+
 
       {/* Contact Placeholder */}
       <SectionPlaceholder
