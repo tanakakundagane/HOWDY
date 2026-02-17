@@ -76,14 +76,14 @@ export default function Access() {
           >
             <iframe
               src="https://maps.google.com/maps?q=岐阜県大垣市鶴見町藤沢２２６&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              className="w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+              className="w-full h-full"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
             {/* Overlay that fades out on hover */}
-            <div className="absolute inset-0 bg-amber-50/10 pointer-events-none group-hover:bg-transparent transition-colors duration-700" />
+            <div className="absolute inset-0 bg-transparent" />
           </motion.div>
         </div>
       </div>

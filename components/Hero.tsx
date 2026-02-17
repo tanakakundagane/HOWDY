@@ -207,7 +207,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Overlay Gradient for readability */}
-      <div className="absolute inset-0 z-0 bg-white/20" />
+      <div className="absolute inset-0 z-0 " />
 
       {/* Content Overlay */}
       <div className="relative z-10 flex h-full w-full items-center justify-center px-6 md:justify-start md:px-20">
@@ -228,9 +228,9 @@ export default function Hero() {
               Redefining Beauty
             </p>
 
-            <div className="flex flex-col gap-6 sm:flex-row text-xl">
+            {/* <div className="flex flex-col gap-6 sm:flex-row text-xl">
               <MagneticButton>お問い合わせ</MagneticButton>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </div>

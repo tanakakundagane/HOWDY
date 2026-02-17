@@ -24,7 +24,7 @@ export default function Recruit() {
       </motion.div>
 
       {/* Light Overlay */}
-      <div className="absolute inset-0 z-10 bg-white/40 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 z-10  backdrop-blur-[2px]" />
 
       {/* Sequence Container */}
       <div className="relative z-20 container mx-auto px-6 h-full flex flex-col items-center justify-center">
@@ -43,7 +43,7 @@ export default function Recruit() {
           }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <h2 className="font-serif text-[15vw] font-bold text-amber-900/60 tracking-tighter leading-none">
+          <h2 className="font-serif text-[10vw] font-bold text-black tracking-tighter leading-none">
             RECRUIT
           </h2>
         </motion.div>
