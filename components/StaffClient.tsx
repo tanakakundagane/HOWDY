@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { X } from "lucide-react";
 
 // 1. 型定義（microCMSの構造に合わせる）
@@ -19,24 +24,39 @@ export interface Staff {
 const StaffCard = ({
   staff,
   onClick,
+  index,
 }: {
   staff: Staff;
   onClick: () => void;
+  index: number;
 }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   return (
     <motion.div
+      ref={ref}
       layoutId={`card-container-${staff.id}`}
       onClick={onClick}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 120 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, margin: "-15%" }}
       whileHover={{ y: -8 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="group cursor-pointer flex flex-col items-center gap-6"
+      transition={{ 
+        duration: 1.8, 
+        ease: [0.16, 1, 0.3, 1],
+        delay: index * 0.4 
+      }}
+      className="group cursor-pointer flex flex-col items-center gap-0"
     >
-      <div className="relative w-full aspect-[3/4] overflow-hidden shadow-xl shadow-zinc-200/50 transition-shadow duration-500 group-hover:shadow-2xl group-hover:shadow-zinc-300/50">
+      <div className="relative w-full aspect-[3/4] overflow-hidden shadow-xl shadow-zinc-200/50 transition-shadow duration-500 group-hover:shadow-2xl group-hover:shadow-zinc-300/50 z-0">
         <motion.div
-          className="w-full h-full relative"
+          className="w-full h-[120%] relative -top-[10%]"
+          style={{ y }}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
@@ -51,12 +71,12 @@ const StaffCard = ({
         </motion.div>
       </div>
 
-      <div className="text-center">
-        <h3 className="font-serif text-3xl text-zinc-800 group-hover:text-amber-800 transition-colors duration-300 tracking-wide">
+      <div className="relative z-10 -mt-12 w-[90%] p-6 text-center backdrop-blur-md bg-white/60 border border-white/50 shadow-xl rounded-sm transition-transform duration-500 group-hover:-translate-y-2 left-10">
+        <h3 className="font-serif text-2xl text-zinc-800 group-hover:text-amber-800 transition-colors duration-300 tracking-wide">
           {staff.name}
         </h3>
-        <div className="w-8 h-px bg-amber-200 mx-auto my-3 group-hover:w-16 transition-all duration-300" />
-        <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+        <div className="w-8 h-px bg-amber-400 mx-auto my-3 group-hover:w-16 transition-all duration-300" />
+        <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-medium">
           {staff.role || "Stylist"}
         </p>
       </div>
@@ -105,10 +125,11 @@ export default function StaffClient({ staffs }: { staffs: Staff[] }) {
       {/* Staff Grid */}
       <div className="container mx-auto px-6 md:px-12 mb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {staffs.map((staff) => (
+          {staffs.map((staff, index) => (
             <StaffCard
               key={staff.id}
               staff={staff}
+              index={index}
               onClick={() => setSelectedId(staff.id)}
             />
           ))}
