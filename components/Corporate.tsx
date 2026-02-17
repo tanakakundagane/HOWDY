@@ -8,6 +8,8 @@ import StaffClient from "./StaffClient";
 import Recruit from "./Recruit";
 import Access from "./Access";
 import GlobalTypography from "./GlobalTypography";
+import Menu from "./Menu";
+import Header from "./Header";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // --- Placeholder Section Component ---
@@ -59,27 +61,39 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
 
   return (
     <div className="bg-[#FAF9F6] selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden w-full relative">
+      <Header />
+      <Menu />
       {/* Global Scrolling Typography */}
       <GlobalTypography />
 
       {/* Hero Section */}
-      <Hero />
+      <section id="hero">
+        <Hero />
+      </section>
 
       {/* Concept Section */}
-      <Concept />
+      <section id="concept">
+        <Concept />
+      </section>
 
       {/* Style Section */}
       {/* <Style /> */}
 
       {/* Gallery/Work Placeholder - Maybe rename or remove if Style covers this */}
-      <StaffClient staffs={staffs} />
+      <section id="staff">
+        <StaffClient staffs={staffs} />
+      </section>
       {/* Gallery/Work Placeholder */}
 
       {/* Recruit Section */}
-      <Recruit />
+      <section id="recruit">
+        <Recruit />
+      </section>
 
       {/* Access Section */}
-      <Access />
+      <section id="access">
+        <Access />
+      </section>
 
 
 
