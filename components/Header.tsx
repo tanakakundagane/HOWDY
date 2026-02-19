@@ -6,7 +6,11 @@ import { motion } from "framer-motion";
 export default function Header() {
   const handleScrollTop = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.location.pathname !== "/") {
+      window.location.href = "/";
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
