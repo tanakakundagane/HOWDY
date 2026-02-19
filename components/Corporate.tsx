@@ -85,7 +85,6 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
       </section>
       {/* Gallery/Work Placeholder */}
 
-      {/* Recruit Section */}
       <section id="recruit">
         <Recruit />
       </section>

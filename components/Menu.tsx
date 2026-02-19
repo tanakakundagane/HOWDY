@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 const navItems = [
-  { name: "Top", href: "#hero", sub: "トップ" },
-  { name: "Concept", href: "#concept", sub: "コンセプト" },
-  { name: "Staff", href: "#staff", sub: "スタッフ" },
-  { name: "Recruit", href: "#recruit", sub: "採用情報" },
-  { name: "Access", href: "#access", sub: "アクセス" },
-  { name: "Contact", href: "#contact", sub: "お問い合わせ" },
+  { name: "Top", href: "/", sub: "トップ" },
+  { name: "Concept", href: "/#concept", sub: "コンセプト" },
+  { name: "Staff", href: "/#staff", sub: "スタッフ" },
+  { name: "Recruit", href: "/recruit", sub: "採用情報" },
+  { name: "Access", href: "/#access", sub: "アクセス" },
+  { name: "Contact", href: "/#contact", sub: "お問い合わせ" },
 ];
 
 const menuVariants = {
@@ -54,12 +54,26 @@ export default function Menu() {
 
   // Smooth scroll handler
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
-    e.preventDefault();
-    setIsOpen(false);
-    const targetId = href.replace("#", "");
-    const elem = document.getElementById(targetId);
-    if (elem) {
-      elem.scrollIntoView({ behavior: "smooth" });
+    // Only handle hash links on the current page
+    if (href.startsWith("/#") || href.startsWith("#")) {
+      // Check if we are on the home page for hash links
+      if (typeof window !== 'undefined' && (window.location.pathname === "/" || href.startsWith("#"))) {
+        const targetId = href.replace(/^(\/)?#/, "");
+        const elem = document.getElementById(targetId);
+        if (elem) {
+          e.preventDefault();
+          setIsOpen(false);
+          elem.scrollIntoView({ behavior: "smooth" });
+        } else {
+           setIsOpen(false);
+        }
+      } else {
+        // If on another page, let the default link behavior happen (navigate to home + hash)
+        setIsOpen(false);
+      }
+    } else {
+      // Normal navigation
+      setIsOpen(false);
     }
   };
 
@@ -106,9 +120,9 @@ export default function Menu() {
                   custom={i}
                   variants={itemVariants}
                 >
-                  <a
+                  <Link
                     href={item.href}
-                    onClick={(e) => handleScroll(e, item.href)}
+                    onClick={(e) => handleScroll(e as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>, item.href)}
                     className="group flex flex-col items-center"
                   >
                     <span className="font-serif text-5xl md:text-7xl text-zinc-800 transition-colors duration-300 group-hover:text-amber-800/80">
@@ -117,7 +131,7 @@ export default function Menu() {
                     <span className="mt-2 text-xs font-medium tracking-[0.2em] text-zinc-400 transition-colors duration-300 group-hover:text-amber-600/60 uppercase">
                       {item.sub}
                     </span>
-                  </a>
+                  </Link>
                 </motion.div>
               ))}
             </nav>

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -68,29 +69,12 @@ export default function Recruit() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 w-full justify-center">
-            {/* Job Card 1 */}
-            <div className="group border border-amber-100 bg-white p-6 rounded-lg hover:shadow-lg transition-all cursor-pointer min-w-[200px] hover:-translate-y-1">
-              <h4 className="text-xl font-serif mb-2 text-zinc-900">Stylist</h4>
-              <p className="text-zinc-500 text-xs mb-4">
-                経験者優遇 / 業務委託可
-              </p>
-              <span className="text-xs tracking-widest uppercase text-amber-600 group-hover:text-amber-500 transition-colors font-medium border-b border-amber-200 pb-0.5">
-                View Details &rarr;
-              </span>
-            </div>
-
-            {/* Job Card 2 */}
-            <div className="group border border-amber-100 bg-white p-6 rounded-lg hover:shadow-lg transition-all cursor-pointer min-w-[200px] hover:-translate-y-1">
-              <h4 className="text-xl font-serif mb-2 text-zinc-900">
-                Assistant
-              </h4>
-              <p className="text-zinc-500 text-xs mb-4">
-                新卒 / 中途 / 未経験可
-              </p>
-              <span className="text-xs tracking-widest uppercase text-amber-600 group-hover:text-amber-500 transition-colors font-medium border-b border-amber-200 pb-0.5">
-                View Details &rarr;
-              </span>
-            </div>
+            <Link 
+              href="/recruit" 
+              className="inline-block bg-zinc-900 text-white px-12 py-4 font-serif hover:bg-amber-900 transition-colors duration-300 rounded-sm"
+            >
+              View Recruit Page
+            </Link>
           </div>
         </motion.div>
       </div>
