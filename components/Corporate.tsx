@@ -95,16 +95,6 @@ export default function Corporate({ staffs }: { staffs: any[] }) {
       </section>
 
 
-
-
-      {/* Contact Placeholder */}
-      <SectionPlaceholder
-        id="contact"
-        title="Begin Your Journey"
-        subtitle="Visit our sanctuary in the heart of the city. Book your appointment today and experience the difference."
-        bgColor="bg-zinc-200"
-      />
-
       {/* Simple Footer */}
       <footer className="w-full bg-zinc-950 py-12 text-center text-zinc-500">
         <p className="font-serif text-sm">
