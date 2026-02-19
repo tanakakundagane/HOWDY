@@ -1,6 +1,8 @@
 import React from "react";
 import Menu from "@/components/Menu";
 import Header from "@/components/Header";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function AssistantRecruitPage() {
   return (
@@ -8,6 +10,10 @@ export default function AssistantRecruitPage() {
       <Header />
       <Menu />
       
+      <Link href="/recruit" className="fixed top-24 left-6 z-40 text-sm tracking-widest text-zinc-500 hover:text-zinc-900 transition-colors flex items-center gap-2">
+        <ArrowLeft size={16} /> BACK TO LIST
+      </Link>
+
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <h1 className="font-serif text-4xl md:text-6xl text-zinc-900 mb-8 text-center">Assistant Recruit</h1>
@@ -39,9 +45,9 @@ export default function AssistantRecruitPage() {
             </dl>
 
             <div className="mt-16 text-center">
-              <a href="#entry" className="inline-block bg-zinc-900 text-white px-12 py-4 font-serif hover:bg-amber-900 transition-colors duration-300">
+              <Link href="#entry" className="inline-block bg-zinc-900 text-white px-12 py-4 font-serif hover:bg-amber-900 transition-colors duration-300">
                 Entry Form
-              </a>
+              </Link>
             </div>
           </div>
         </div>

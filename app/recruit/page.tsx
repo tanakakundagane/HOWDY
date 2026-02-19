@@ -1,6 +1,8 @@
 import React from "react";
 import Menu from "@/components/Menu";
 import Header from "@/components/Header";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import Recruit from "@/components/Recruit"; // Re-using for now, will be updated to be the "top" recruit page content
 
 export default function RecruitPage() {
@@ -9,6 +11,10 @@ export default function RecruitPage() {
       <Header />
       <Menu />
       
+      <Link href="/" className="fixed top-24 left-6 z-40 text-sm tracking-widest text-zinc-500 hover:text-zinc-900 transition-colors flex items-center gap-2">
+        <ArrowLeft size={16} /> BACK TO TOP
+      </Link>
+
       <section className="relative pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">
           <h1 className="font-serif text-5xl md:text-7xl text-zinc-900 mb-12 text-center">
@@ -21,7 +27,7 @@ export default function RecruitPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Stylist Card */}
-            <a href="/recruit/stylist" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
+            <Link href="/recruit/stylist" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
                <div className="absolute inset-0 bg-zinc-200 transition-transform duration-500 group-hover:scale-105">
                  {/* Placeholder for image */}
                  <div className="w-full h-full bg-zinc-100" />
@@ -30,10 +36,10 @@ export default function RecruitPage() {
                  <h2 className="font-serif text-3xl text-zinc-900 mb-4 group-hover:text-amber-800 transition-colors z-10">Stylist</h2>
                  <p className="text-sm text-zinc-600 uppercase tracking-widest z-10">スタイリスト募集</p>
                </div>
-            </a>
+            </Link>
 
             {/* Assistant Card */}
-            <a href="/recruit/assistant" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
+            <Link href="/recruit/assistant" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
                <div className="absolute inset-0 bg-zinc-200 transition-transform duration-500 group-hover:scale-105">
                  <div className="w-full h-full bg-zinc-100" />
                </div>
@@ -41,10 +47,10 @@ export default function RecruitPage() {
                  <h2 className="font-serif text-3xl text-zinc-900 mb-4 group-hover:text-amber-800 transition-colors z-10">Assistant</h2>
                  <p className="text-sm text-zinc-600 uppercase tracking-widest z-10">アシスタント募集</p>
                </div>
-            </a>
+            </Link>
 
             {/* New Grad Card */}
-            <a href="/recruit/new-grad" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
+            <Link href="/recruit/new-grad" className="group block relative overflow-hidden bg-white shadow-lg rounded-sm aspect-[3/4]">
                <div className="absolute inset-0 bg-zinc-200 transition-transform duration-500 group-hover:scale-105">
                  <div className="w-full h-full bg-zinc-100" />
                </div>
@@ -52,7 +58,7 @@ export default function RecruitPage() {
                  <h2 className="font-serif text-3xl text-zinc-900 mb-4 group-hover:text-amber-800 transition-colors z-10">New Grad</h2>
                  <p className="text-sm text-zinc-600 uppercase tracking-widest z-10">新卒採用</p>
                </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
